@@ -44,7 +44,7 @@
     function createAutoDiv() {
         var div = '<div id="autoSendMsg" style="position: fixed; width: 300px; height: 300px; top: 0; right: 0; ' +
             'background-color: red;">';
-        div += '<p><label>时间</label><input type="text" id="autoTime" value="1"></p>';
+        div += '<p><label>时间</label><input type="text" id="autoTime" value="2"></p>';
         div += '<p><label>内容</label><input type="text" id="autoSendMsgText"></p>';
         div += '<p><buttom type="buttom" id="autoSendMsgButtom">自动发送开始</buttom></p>';
         // div += '<p><buttom type="buttom" id="autoBidButtom">自动出价开始</buttom></p>';
