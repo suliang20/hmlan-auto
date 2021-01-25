@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name              hmlan
 // @namespace         https://github.com/suliang20/hmlan-auto
-// @version           0.1
+// @version           0.2
 // @description       直播自动发送消息!
 // @author            suliang20
 // @license           MIT
