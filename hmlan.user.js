@@ -6,6 +6,8 @@
 // @author            suliang20
 // @license           MIT
 // @supportURL        https://github.com/suliang20/hmlan-auto
+// @updateURL         https://github.com/suliang20/hmlan-auto/hmlan.user.js
+// @downloadURL       https://github.com/suliang20/hmlan-auto/hmlan.user.js
 // @match             *://m.hmlan.com/h5/live/share.html*
 // @match             *://m.hmlan.com/h5/live/offlive.html*
 // @require           https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js
