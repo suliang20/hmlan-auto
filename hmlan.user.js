@@ -32,7 +32,7 @@
         //  添加autoSendMsgDiv
         document.querySelector('body').appendChild(createAutoDiv());
         //  绑定自动发送事件
-        autoSendMsgStartInterval();
+        autoSendMsgStartTimeout();
         //  绑定自动出价事件
         // autoBidEndInterval();
     })();
@@ -58,8 +58,10 @@
     /**
      * 自动发送消息计时开始
      */
-    function autoSendMsgStartInterval() {
+    function autoSendMsgStartTimeout() {
         document.querySelector('#autoSendMsgButtom').onclick = function() {
+            //  自动发送消息计时结束
+            autoSendMsgEndTimeout();
             autoSendMsgStart()
         };
     }
@@ -67,7 +69,7 @@
     /**
      * 自动发送消息计时结束
      */
-    function autoSendMsgEndInterval() {
+    function autoSendMsgEndTimeout() {
         document.querySelector('#autoSendMsgButtom').onclick = function() {
             autoSendMsgEnd();
         };
@@ -81,10 +83,22 @@
         //  获取定时时间
         autoTime = document.querySelector('#autoTime').value;
         autoTime = parseInt(autoTime) * 1000;
-        interval = window.setInterval(autoSendMsg, autoTime);
-        autoSendMsgEndInterval();
-        //  强制关闭自动出价
-        autoBidEnd();
+        autoSendMsgTimeout();
+
+    }
+
+    /**
+     * 自动发送消息定时器
+     */
+    function autoSendMsgTimeout() {
+        if (autoTime > 0) {
+            setTimeout(function() {
+                autoSendMsg();
+                var sleepTime = Math.round(Math.random() * autoTime);
+                sleep(sleepTime);
+                autoSendMsgTimeout();
+            }, autoTime);
+        }
     }
 
     /**
@@ -93,22 +107,16 @@
     function autoSendMsgEnd() {
         document.querySelector('#autoSendMsgButtom').innerHTML = "自动发送开始";
         autoTime = 0;
-        window.clearInterval(interval);
-        autoSendMsgStartInterval();
+        autoSendMsgStartTimeout();
     }
 
     /**
      * 自动发送消息
      */
     function autoSendMsg() {
-        //  已经开始返回
-        if (startFlat == true) {
-            return;
-        }
-        startFlat = true;
 
-        var sleepTime = Math.round(Math.random() * autoTime);
-        sleep(sleepTime);
+        var myDate = new Date();
+        console.log(myDate.toLocaleTimeString());
 
         //获取聊天内容
         // var cmtValue = $(".commentInput").html();
@@ -122,9 +130,6 @@
             appToast("内容不能为空");
             //  结束自动发送消息
             autoSendMsgEnd();
-
-            //  开始标记
-            startFlat = false;
             return;
         } else {
             //粉丝标识
@@ -162,10 +167,8 @@
                 console.warn('sendMessage error:', imError);
             });
         }
-
-        //  开始标记
-        startFlat = false;
     }
+
 
 
     /**
@@ -237,6 +240,8 @@
         //  开始标记
         startFlat = false;
     }
+
+
 
     /**
      * 参数n为休眠时间，单位为毫秒:
