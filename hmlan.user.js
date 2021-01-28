@@ -31,8 +31,13 @@
 
         //  添加autoSendMsgDiv
         document.querySelector('body').appendChild(createAutoDiv());
+
         //  绑定自动发送事件
         autoSendMsgStartTimeout();
+
+        //  绑定手动发送事件
+        SendMsgStart();
+
         //  绑定自动出价事件
         // autoBidEndInterval();
     })();
@@ -47,7 +52,8 @@
         div += '<p><label>时间</label><input type="text" id="autoTime" value="2"></p>';
         div += '<p><label>内容</label><input type="text" id="autoSendMsgText"></p>';
         div += '<p><buttom type="buttom" id="autoSendMsgButtom">自动发送开始</buttom></p>';
-        // div += '<p><buttom type="buttom" id="autoBidButtom">自动出价开始</buttom></p>';
+        div += '<p></p>';
+        div += '<p><buttom type="buttom" id="SendMsgButtom">手动发送</buttom></p>';
         div += "</div>";
 
         let tempNode = document.createElement('div');
@@ -63,6 +69,19 @@
             //  自动发送消息计时结束
             autoSendMsgEndTimeout();
             autoSendMsgStart()
+        };
+    }
+
+    /**
+     * 手动发送消息
+     * @constructor
+     */
+    function SendMsgStart() {
+        document.querySelector('#SendMsgButtom').onclick = function() {
+            //  自动发送消息计时结束
+            autoSendMsgEnd();
+            //  发送消息
+            SendMsg();
         };
     }
 
@@ -93,7 +112,8 @@
     function autoSendMsgTimeout() {
         if (autoTime > 0) {
             setTimeout(function() {
-                autoSendMsg();
+                //  发送消息
+                SendMsg();
                 var sleepTime = Math.round(Math.random() * autoTime);
                 sleep(sleepTime);
                 autoSendMsgTimeout();
@@ -111,13 +131,9 @@
     }
 
     /**
-     * 自动发送消息
+     * 发送消息
      */
-    function autoSendMsg() {
-
-        var myDate = new Date();
-        console.log(myDate.toLocaleTimeString());
-
+    function SendMsg() {
         //获取聊天内容
         // var cmtValue = $(".commentInput").html();
         var cmtValue = document.querySelector('#autoSendMsgText').value;
