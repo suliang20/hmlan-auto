@@ -74,7 +74,6 @@
 
     /**
      * 手动发送消息
-     * @constructor
      */
     function SendMsgStart() {
         document.querySelector('#SendMsgButtom').onclick = function() {
