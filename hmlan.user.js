@@ -14,7 +14,7 @@
 // @grant none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     // Your code here...
@@ -24,7 +24,7 @@
     var autoTime = 0;
     var startFlat = false;
 
-    (function() {
+    (function () {
         // document.getElementsByTagName("option")[1].selected = true;
         // document.form1.bh.value = "ID:NO";
         // document.form1.mm.value = "passwd";
@@ -65,7 +65,7 @@
      * 自动发送消息计时开始
      */
     function autoSendMsgStartTimeout() {
-        document.querySelector('#autoSendMsgButtom').onclick = function() {
+        document.querySelector('#autoSendMsgButtom').onclick = function () {
             //  自动发送消息计时结束
             autoSendMsgEndTimeout();
             autoSendMsgStart()
@@ -76,11 +76,13 @@
      * 手动发送消息
      */
     function SendMsgStart() {
-        document.querySelector('#SendMsgButtom').onclick = function() {
+        document.querySelector('#SendMsgButtom').onclick = function () {
             //  自动发送消息计时结束
             autoSendMsgEnd();
             //  发送消息
+            startFlat = true;
             SendMsg();
+            startFlat = false;
         };
     }
 
@@ -88,7 +90,7 @@
      * 自动发送消息计时结束
      */
     function autoSendMsgEndTimeout() {
-        document.querySelector('#autoSendMsgButtom').onclick = function() {
+        document.querySelector('#autoSendMsgButtom').onclick = function () {
             autoSendMsgEnd();
         };
     }
@@ -110,9 +112,11 @@
      */
     function autoSendMsgTimeout() {
         if (autoTime > 0) {
-            setTimeout(function() {
+            setTimeout(function () {
                 //  发送消息
+                startFlat = true;
                 SendMsg();
+                startFlat = false;
                 var sleepTime = Math.round(Math.random() * autoTime);
                 sleep(sleepTime);
                 autoSendMsgTimeout();
@@ -125,6 +129,7 @@
      */
     function autoSendMsgEnd() {
         document.querySelector('#autoSendMsgButtom').innerHTML = "自动发送开始";
+        startFlat = false;
         autoTime = 0;
         autoSendMsgStartTimeout();
     }
@@ -133,6 +138,10 @@
      * 发送消息
      */
     function SendMsg() {
+        if (startFlat == false) {
+            appToast("已停止");
+            return;
+        }
         //获取聊天内容
         // var cmtValue = $(".commentInput").html();
         var cmtValue = document.querySelector('#autoSendMsgText').value;
@@ -168,14 +177,14 @@
             });
             // 2. 发送消息
             let promise = tim.sendMessage(message);
-            promise.then(function(imResponse) {
+            promise.then(function (imResponse) {
                 // 发送成功
                 appToast2("发送成功", 800);
                 AppendIm(sessionStorage.getItem("local-username"), replaceFaceImg(RecmtValue), 3, MyRateTotal); //加入聊天信息
                 isC2C = "";
                 BlurInput();
                 clickLayerMask();
-            }).catch(function(imError) {
+            }).catch(function (imError) {
                 // 发送失败
                 appToast("发送失败");
                 FocusInput();
@@ -185,12 +194,11 @@
     }
 
 
-
     /**
      * 自动出价计时开始
      */
     function autoBidStartInterval() {
-        document.querySelector('#autoBidButtom').onclick = function() {
+        document.querySelector('#autoBidButtom').onclick = function () {
             autoBidStart();
         };
     }
@@ -199,7 +207,7 @@
      * 自动出价计时结束
      */
     function autoBidEndInterval() {
-        document.querySelector('#autoBidButtom').onclick = function() {
+        document.querySelector('#autoBidButtom').onclick = function () {
             autoBidEnd();
         };
     }
@@ -255,7 +263,6 @@
         //  开始标记
         startFlat = false;
     }
-
 
 
     /**
